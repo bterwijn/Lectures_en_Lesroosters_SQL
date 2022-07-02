@@ -14,14 +14,14 @@ def compute_solution_score():
     computed_room_capacity_cost = room_capacity_cost(sql_cursor)
     print("room_capacity_cost:",computed_room_capacity_cost)
 
-    computed_course_conflict_cost = course_conflict_cost(sql_cursor)
-    print("course_conflict_cost:",computed_course_conflict_cost)
+    computed_activity_confict_cost = activity_confict_cost(sql_cursor)
+    print("activity_confict_cost:",computed_activity_confict_cost)
 
-    gaps=activity_gap.get_activity_gabs(sql_cursor)
-    computed_gab_cost = gap_cost(gaps)
-    print("gab_cost:",computed_gab_cost)
+    gaps=activity_gap.get_activity_gaps(sql_cursor)
+    computed_gap_cost = gap_cost(gaps)
+    print("gap_cost:",computed_gap_cost)
 
-    total_cost=computed_time_cost + computed_room_capacity_cost + computed_course_conflict_cost + computed_gab_cost
+    total_cost=computed_time_cost + computed_room_capacity_cost + computed_activity_confict_cost + computed_gap_cost
     print("total_cost:",total_cost)
     
     #sql_connection.commit() # nothing written
@@ -41,7 +41,7 @@ def room_capacity_cost(sql_cursor):
         JOIN rooms ON rooms.name=activity_with_student_count.room
         WHERE student_count>capacity;'''))
 
-def course_conflict_cost(sql_cursor):
+def activity_confict_cost(sql_cursor):
     return to_int(sql_cursor.execute(
         '''SELECT SUM(count-1) FROM (SELECT count() as count FROM solution
         GROUP BY student,day,time) WHERE count>1;'''))

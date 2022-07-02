@@ -48,7 +48,7 @@ def check_solution_valid():
     if results:
         print("ERROR: roomslots_multi_use:",results)
 
-    gaps = activity_gap.get_activity_gabs(sql_cursor)
+    gaps = activity_gap.get_activity_gaps(sql_cursor)
     if (gaps[2]>0):
         print("ERROR: there are 3-activity-gaps:",gaps[2])
     

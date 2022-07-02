@@ -1,6 +1,6 @@
 import sqlite3
 
-def get_activity_gabs(sql_cursor):
+def get_activity_gaps(sql_cursor):
     all_hours=[int(h[0]) for h in sql_cursor.execute("SELECT name FROM timeslots;")]
     days=sql_cursor.execute("SELECT group_concat(time) FROM solution GROUP BY student,day;")
     gaps=[0 for h in range(len(all_hours)-2)]
