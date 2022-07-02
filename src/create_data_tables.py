@@ -3,7 +3,7 @@ import csv
 import sqlite3
 
 def main():
-    data_path=os.path.join("..","data")
+    data_path=os.path.join("data")
     create_data_tables(data_path)
     
 def create_data_tables(data_path):
@@ -14,6 +14,7 @@ def create_data_tables(data_path):
     create_table_timeslots(os.path.join(data_path,"tijden.csv"),sql_cursor)
     create_table_courses(os.path.join(data_path,"vakken.csv"),sql_cursor)
     create_table_students(os.path.join(data_path,"studenten_en_vakken.csv"),sql_cursor)
+    create_helper_views(sql_cursor)
     sql_connection.commit()
     sql_connection.close()
 
@@ -119,7 +120,21 @@ def create_table_students(filename,sql_cursor):
                     #print(student,course)
                     sql_cursor.execute("INSERT INTO students VALUES (?,?)",
                                        (name,course))
-    
+
+def create_helper_views(sql_cursor):
+    # all valid room and time combinations with cost
+    sql_cursor.execute("DROP VIEW IF EXISTS roomslots;")
+    sql_cursor.execute('''CREATE VIEW roomslots AS 
+    SELECT rooms.name as room, timeslots.name as time, timeslots.cost as cost
+    FROM rooms JOIN timeslots on INSTR(rooms.special,timeslots.special)>0;''')
+
+    # all students scheduled to course activities
+    sql_cursor.execute("DROP VIEW IF EXISTS student_courses;")
+    sql_cursor.execute('''CREATE VIEW student_courses AS 
+    SELECT students.name, students.course, courses.activity 
+    FROM students JOIN courses ON students.course = courses.name;''')
+
+                    
 if __name__ == "__main__":
     main()
 
