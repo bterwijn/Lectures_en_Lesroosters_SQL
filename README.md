@@ -3,14 +3,14 @@ Checks validity and computes the score of a solution to the Lectures_en_Lesroost
 
 # valid solution example 
 
-    python src/create_data_tables.py                                     # loads the case data in the database
-    python src/create_solution_table.py solutions/schedule_871.csv       # loads a valid example solution in the database
+    python src/create_data_tables.py                               # loads the case data in the database
+    python src/create_solution_table.py solutions/schedule_871.csv # loads a valid example solution in the database
 * loading file:  solutions/schedule_871.csv
 
 then we check and compute:
 
-    python src/check_solution_valid.py                                   # check for invalid solution
-    python src/compute_solution_score.py                                 # computes the score
+    python src/check_solution_valid.py                             # check for invalid solution
+    python src/compute_solution_score.py                           # computes the score
 * time_cost: 20
 * room_capacity_cost: 334
 * course_conflict_cost: 268
@@ -19,13 +19,13 @@ then we check and compute:
 
 # invalid solution example 
 
-    python src/create_data_tables.py                                      # loads the case data in the database
-    python src/create_solution_table.py solutions/schedule_871_INVALID.csv  # loads an invalid example solution in the database
+    python src/create_data_tables.py                                       # loads the case data in the database
+    python src/create_solution_table.py solutions/schedule_871_INVALID.csv # loads an invalid example solution in the database
 * loading file:  solutions/schedule_871_INVALID.csv
    
 then we check and compute:
 
-    python src/check_solution_valid.py                                    # check for invalid solution
+    python src/check_solution_valid.py                                     # check for invalid solution
 * ERROR: invalid_students: [('Yanick Abbing WRONG',)]
 * ERROR: invalid_courses: [('Webprogrammeren en databases WRONG',)]
 * ERROR: invalid_rooms: [('A1.06 WRONG',)]
