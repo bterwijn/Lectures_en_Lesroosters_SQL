@@ -4,7 +4,8 @@ import sqlite3
 
 def main():
     data_path=os.path.join("..","data")
-
+    create_data_tables(data_path)
+    
 def create_data_tables(data_path):
     sql_connection = sqlite3.connect('lectures_en_lesroosters.db')
     sql_cursor = sql_connection.cursor()
@@ -48,14 +49,14 @@ def create_table_days(filename,sql_cursor):
 
 def create_table_timeslots(filename,sql_cursor):
     sql_cursor.execute("DROP TABLE IF EXISTS timeslots")
-    sql_cursor.execute("CREATE TABLE timeslots (name text,cost int,special text)")
+    sql_cursor.execute("CREATE TABLE timeslots (name int,cost int,special text)")
     sql_cursor.execute("CREATE INDEX timeslots_name ON timeslots(name)")
     with open(filename, 'r') as file:
         csv_reader = csv.reader(file)
         next(csv_reader) # skip first (header) row
         for row in csv_reader:
             if len(row)>0:
-                name=row[0]
+                name=int(row[0])
                 cost=int(row[1])
                 special="" if len(row)==2 else row[2]
                 #print(name,cost,special)
@@ -64,7 +65,7 @@ def create_table_timeslots(filename,sql_cursor):
 
 def create_table_courses(filename,sql_cursor):
     sql_cursor.execute("DROP TABLE IF EXISTS courses")
-    sql_cursor.execute("CREATE TABLE courses (name text,type text,max_student int,expected_nr_students)")
+    sql_cursor.execute("CREATE TABLE courses (name text,activity text,max_students int,expected_nr_students)")
     sql_cursor.execute("CREATE INDEX courses_name ON courses(name)")
     with open(filename, 'r') as file:
         csv_reader = csv.reader(file)
