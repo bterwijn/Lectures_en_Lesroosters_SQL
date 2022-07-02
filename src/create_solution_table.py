@@ -19,7 +19,7 @@ def create_solution_table(filename):
 
 def create_table_solution(filename,sql_cursor):
     sql_cursor.execute("DROP TABLE IF EXISTS solution")
-    sql_cursor.execute("CREATE TABLE solution (student text, course int, activity text, room text, day text, time int)")
+    sql_cursor.execute("CREATE TABLE solution (student text, course text, activity text, room text, day text, time int)")
     sql_cursor.execute("CREATE INDEX solution_student ON solution(student)")
     sql_cursor.execute("CREATE INDEX solution_course ON solution(course)")
     sql_cursor.execute("CREATE INDEX solution_activity ON solution(activity)")
