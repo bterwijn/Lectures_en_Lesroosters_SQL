@@ -53,12 +53,6 @@ def create_table_timeslots(filename,sql_cursor):
         sql_cursor.execute("INSERT INTO timeslots VALUES (?,?,?)",
                            (name,cost,special))
 
-def get_int(str,fail_value): # return str converted to int, or return fail_value
-    try:
-        return int(str)
-    except:
-        return fail_value
-
 def add_activity(sql_cursor,name,activity,max_students,expected_nr_students):
     #print(name,activity,max_students,expected_nr_students)
     sql_cursor.execute("INSERT INTO courses VALUES (?,?,?,?)",
@@ -78,12 +72,12 @@ def create_table_courses(filename,sql_cursor):
             add_activity(sql_cursor, name, "h"+str(i+1), unlimited, expected_nr_students)
         #------- werkcolleges
         nr_werkcolleges=int(row[2])
-        max_stud_werkcolleges=get_int(row[3],unlimited)
+        max_stud_werkcolleges=table_reader.convert_int(row[3],unlimited)
         for i in range(nr_werkcolleges):
             add_activity(sql_cursor, name, "w"+str(i+1), max_stud_werkcolleges, expected_nr_students)
         #------- practica
         nr_practica=int(row[4])
-        max_stud_practica=get_int(row[5],unlimited)
+        max_stud_practica=table_reader.convert_int(row[5],unlimited)
         for i in range(nr_practica):
             add_activity(sql_cursor, name, "p"+str(i+1), max_stud_practica, expected_nr_students)
                 

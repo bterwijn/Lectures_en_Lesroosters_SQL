@@ -7,3 +7,9 @@ def read_rows(filename):
         for row in csv_reader:
             if len(row)>0:
                 yield row
+
+def convert_int(str,fail_value=-1): # return str converted to int, or return fail_value
+    try:
+        return int(str)
+    except:
+        return fail_value
