@@ -53,13 +53,14 @@ def create_table_timeslots(filename,sql_cursor):
         sql_cursor.execute("INSERT INTO timeslots VALUES (?,?,?)",
                            (name,cost,special))
 
-def get_int(str,alternative): # return str converted to int, or return alternative
+def get_int(str,fail_value): # return str converted to int, or return fail_value
     try:
         return int(str)
     except:
-        return alternative
+        return fail_value
 
 def add_activity(sql_cursor,name,activity,max_students,expected_nr_students):
+    #print(name,activity,max_students,expected_nr_students)
     sql_cursor.execute("INSERT INTO courses VALUES (?,?,?,?)",
                        (name,activity,max_students,expected_nr_students))
     
@@ -113,7 +114,6 @@ def create_helper_views(sql_cursor):
     SELECT students.name, students.course, courses.activity 
     FROM students JOIN courses ON students.course = courses.name;''')
 
-                    
 if __name__ == "__main__":
     main()
 
