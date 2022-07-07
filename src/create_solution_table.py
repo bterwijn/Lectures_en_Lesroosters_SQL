@@ -1,7 +1,8 @@
 import os
 import sys
-import csv
 import sqlite3
+
+import table_reader
 
 def main():
     filename=os.path.join("solutions","schedule_871.csv")
@@ -26,20 +27,16 @@ def create_table_solution(filename,sql_cursor):
     sql_cursor.execute("CREATE INDEX solution_rdt ON solution(room,day,time)")
     sql_cursor.execute("CREATE INDEX solution_sdt ON solution(student,day,time)")
     sql_cursor.execute("CREATE INDEX solution_sd ON solution(student,day)")
-    with open(filename, 'r') as file:
-        csv_reader = csv.reader(file)
-        next(csv_reader) # skip first (header) row
-        for row in csv_reader:
-            if len(row)>0:
-                student=row[0]
-                course=row[1]
-                activity=row[2]
-                room=row[3]
-                day=row[4]
-                time=int(row[5])
-                #print(student,course,activity,room,day,time)
-                sql_cursor.execute("INSERT INTO solution VALUES (?,?,?,?,?,?)",
-                                   (student,course,activity,room,day,time))
+    for row in table_reader.read_rows(filename):
+        student=row[0]
+        course=row[1]
+        activity=row[2]
+        room=row[3]
+        day=row[4]
+        time=int(row[5])
+        #print(student,course,activity,room,day,time)
+        sql_cursor.execute("INSERT INTO solution VALUES (?,?,?,?,?,?)",
+                           (student,course,activity,room,day,time))
 
 def create_helper_views(sql_cursor):
     # all scheduled course activities with student_count
