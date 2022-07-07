@@ -66,26 +66,26 @@ def add_activity(sql_cursor,name,activity,max_students,expected_nr_students):
     
 def create_table_courses(filename,sql_cursor):
     sql_cursor.execute("DROP TABLE IF EXISTS courses")
-    sql_cursor.execute("CREATE TABLE courses (name text,activity text,max_students int,expected_nr_students)")
+    sql_cursor.execute("CREATE TABLE courses (name text,activity text,max_students int,expected_nr_students int)")
     sql_cursor.execute("CREATE INDEX courses_name ON courses(name)")
     unlimited=999999
     for row in table_reader.read_rows(filename):
         name=row[0]
-        expected_nr_students=row[6]
+        expected_nr_students=int(row[6])
         #------- hoorcolleges
         nr_hoorcolleges=int(row[1])
         for i in range(nr_hoorcolleges):
-            add_activity(sql_cursor, "h"+str(i+1), unlimited, expected_nr_students)
+            add_activity(sql_cursor, name, "h"+str(i+1), unlimited, expected_nr_students)
         #------- werkcolleges
         nr_werkcolleges=int(row[2])
         max_stud_werkcolleges=get_int(row[3],unlimited)
         for i in range(nr_werkcolleges):
-            add_activity(sql_cursor, "w"+str(i+1), max_stud_werkcolleges, expected_nr_students)
+            add_activity(sql_cursor, name, "w"+str(i+1), max_stud_werkcolleges, expected_nr_students)
         #------- practica
         nr_practica=int(row[4])
         max_stud_practica=get_int(row[5],unlimited)
         for i in range(nr_practica):
-            add_activity(sql_cursor, "p"+str(i+1), max_stud_practica, expected_nr_students))
+            add_activity(sql_cursor, name, "p"+str(i+1), max_stud_practica, expected_nr_students)
                 
 def create_table_students(filename,sql_cursor):
     sql_cursor.execute("DROP TABLE IF EXISTS students")
