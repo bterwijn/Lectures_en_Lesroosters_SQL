@@ -25,11 +25,6 @@ def create_solution_table(filename):
 def create_table_solution(filename, sql):
     sql.execute("DROP TABLE IF EXISTS solution")
     sql.execute("CREATE TABLE solution (student text, course text, activity text, room text, day text, time int)")
-    sql.execute("CREATE INDEX solution_student ON solution(student)")
-    sql.execute("CREATE INDEX solution_cardt ON solution(course,activity,room,day,time)")
-    sql.execute("CREATE INDEX solution_rdt ON solution(room,day,time)")
-    sql.execute("CREATE INDEX solution_sdt ON solution(student,day,time)")
-    sql.execute("CREATE INDEX solution_sd ON solution(student,day)")
     for row in table_reader.read_rows(filename):
         student = row[0]
         course = row[1]

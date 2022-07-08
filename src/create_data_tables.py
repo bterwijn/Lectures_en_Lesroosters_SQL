@@ -25,8 +25,7 @@ def create_data_tables(data_path):
 
 def create_table_rooms(filename, sql):
     sql.execute("DROP TABLE IF EXISTS rooms")
-    sql.execute("CREATE TABLE rooms (name text, capacity int, special text)")
-    sql.execute("CREATE INDEX rooms_name ON rooms(name)")
+    sql.execute("CREATE TABLE rooms (name text PRIMARY KEY, capacity int, special text)")
     for row in table_reader.read_rows(filename):
         name = row[0]
         capacity = int(row[1])
@@ -38,8 +37,7 @@ def create_table_rooms(filename, sql):
 
 def create_table_days(filename, sql):
     sql.execute("DROP TABLE IF EXISTS days")
-    sql.execute("CREATE TABLE days (name text)")
-    sql.execute("CREATE INDEX days_name ON days(name)")
+    sql.execute("CREATE TABLE days (name text PRIMARY KEY)")
     for row in table_reader.read_rows(filename):
         name = row[0]
         # print(name)
@@ -49,8 +47,7 @@ def create_table_days(filename, sql):
 
 def create_table_timeslots(filename, sql):
     sql.execute("DROP TABLE IF EXISTS timeslots")
-    sql.execute("CREATE TABLE timeslots (name int,cost int,special text)")
-    sql.execute("CREATE INDEX timeslots_name ON timeslots(name)")
+    sql.execute("CREATE TABLE timeslots (name int PRIMARY KEY,cost int,special text)")
     for row in table_reader.read_rows(filename):
         name = int(row[0])
         cost = int(row[1])
@@ -70,7 +67,6 @@ def create_table_courses(filename, sql):
     sql.execute("DROP TABLE IF EXISTS courses")
     sql.execute(
         "CREATE TABLE courses (name text,activity text,max_students int,expected_nr_students int)")
-    sql.execute("CREATE INDEX courses_name ON courses(name)")
     unlimited = 999999
     for row in table_reader.read_rows(filename):
         name = row[0]
@@ -97,7 +93,6 @@ def create_table_courses(filename, sql):
 def create_table_students(filename, sql):
     sql.execute("DROP TABLE IF EXISTS students")
     sql.execute("CREATE TABLE students (name text,course text)")
-    sql.execute("CREATE INDEX students_name ON students(name)")
     for row in table_reader.read_rows(filename):
         name = f"{row[1]} {row[0]}"
         for index in range(3, len(row)):
